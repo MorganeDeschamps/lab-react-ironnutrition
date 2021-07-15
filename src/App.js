@@ -1,24 +1,47 @@
-import React from 'react';
-import logo from './logo.svg';
+import React , { useState, useEffect } from "react";
+
+import 'bulma/css/bulma.css';
 import './App.css';
 
+import foods from './foods.json';
+import FoodBox from "./components/FoodBox";
+import AddFoodForm from "./components/AddFoodForm";
+const foodsArray = [...foods];
+
+
+
 function App() {
+
+  const [foodData, setFoodData] = useState(foodsArray);
+
+
+  function addFood(newFood) {
+    const updatedFoodList = [newFood, ...foodData];
+    setFoodData(updatedFoodList)
+  }
+
+
+
+
+
+
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+      <AddFoodForm addFoodHandler={addFood}/>
+
+        <ul class="food-list">
+          {foodData.map((foodEl, index) => {
+            return (
+              <li key={index}>
+                <FoodBox foodObject={foodEl} />
+              </li>
+            )
+          })}
+        </ul>
+
     </div>
   );
 }
