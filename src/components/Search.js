@@ -12,6 +12,7 @@ export default function Search(props) {
     
 
     function handleSearch(event) {
+        event.preventDefault();
         const search = event.target.value
         setFormState(search)
 

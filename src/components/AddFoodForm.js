@@ -6,6 +6,7 @@ import 'bulma/css/bulma.css';
 export default function AddFoodForm(props) {
 
     const addFood = props.addFoodHandler
+    const cancelForm = props.cancelFormHandler
 
     const initialState =   {
         name: "",
@@ -31,9 +32,14 @@ export default function AddFoodForm(props) {
       setFormState( initialState )
     }
 
+    function handleOnCancel(event){
+        event.preventDefault();
+        cancelForm();
+    }
+
 
     return (
-        <form onSubmit={handleOnSubmit} >
+        <form onSubmit={handleOnSubmit} onReset={handleOnCancel}>
             <div class="field">
                 <label class="label">Name</label>
                 <div class="control">
@@ -52,9 +58,15 @@ export default function AddFoodForm(props) {
                     <input name="image" value={formState.image} onChange={handleChange} class="input" type="url" placeholder="e.g. https://i.imgur.com/eTmWoAN.png"/>
                 </div>
             </div>
-            <div class="control">
-              <button type="submit" class="button is-link">Submit</button>
+            <div class="field is-grouped">
+                <div class="control">
+                  <button type="submit" class="button is-link">Submit</button>
+                </div>
+                <div class="control">
+                  <button type="reset" class="button is-link is-light">Cancel</button>
+                </div>
             </div>
+
         </form>
 
     )
