@@ -1,15 +1,7 @@
-import React , { useState, useEffect } from "react";
+import React , { useState, useEffect } from "react"; 
 
 import 'bulma/css/bulma.css';
 
-
-/* {
-    "name": "Pizza",
-    "calories": 400,
-    "image": "https://i.imgur.com/eTmWoAN.png",
-    "quantity": 0
-}
- */
 
 export default function AddFoodForm(props) {
 
@@ -24,8 +16,7 @@ export default function AddFoodForm(props) {
 
     const [formState, setFormState] = useState( initialState )
 
-
-    /**/
+    
 
     function handleChange(event){
         setFormState( { ...formState, [event.target.name]: event.target.value } )
