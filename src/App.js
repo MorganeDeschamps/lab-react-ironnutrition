@@ -14,23 +14,24 @@ function App() {
 
   const [foodData, setFoodData] = useState(foodsArray);
 
+  const [action, setAction] = useState(false)
+
 
   function addFood(newFood) {
     const updatedFoodList = [newFood, ...foodData];
     setFoodData(updatedFoodList)
+    setAction(!action)
   }
-
-
-
-
-
-
 
 
   return (
     <div className="App">
 
-      <AddFoodForm addFoodHandler={addFood}/>
+      {(!action) && 
+            <button class="button" onClick={() => setAction( !action )} > Add new food </button>
+      }
+
+      {(action) && <AddFoodForm addFoodHandler={addFood}/>}
 
         <ul class="food-list">
           {foodData.map((foodEl, index) => {

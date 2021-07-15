@@ -18,11 +18,12 @@ export default function AddFoodForm(props) {
     const initialState =   {
         name: "",
         calories: null,
-        image: "https://",
+        image: "",
         quantity: 0
     }
 
     const [formState, setFormState] = useState( initialState )
+
 
     /**/
 
@@ -39,6 +40,7 @@ export default function AddFoodForm(props) {
       setFormState( initialState )
     }
 
+
     return (
         <form onSubmit={handleOnSubmit} >
             <div class="field">
@@ -47,26 +49,23 @@ export default function AddFoodForm(props) {
                     <input name="name" value={formState.name} onChange={handleChange} class="input" type="text" placeholder="e.g. Tofu"/>
                 </div>
             </div>
-
             <div class="field">
                 <label class="label">Number of calories</label>
                 <div class="control">
                     <input name="calories" value={formState.calories} onChange={handleChange} class="input" type="number" placeholder="e.g. 10"/>
                 </div>
             </div>
-
             <div class="field">
                 <label class="label">Image</label>
                 <div class="control">
                     <input name="image" value={formState.image} onChange={handleChange} class="input" type="url" placeholder="e.g. https://i.imgur.com/eTmWoAN.png"/>
                 </div>
             </div>
-
             <div class="control">
               <button type="submit" class="button is-link">Submit</button>
             </div>
-
         </form>
+
     )
 
 }
