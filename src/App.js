@@ -13,56 +13,63 @@ const foodsArray = [...foods];
 
 
 function App() {
-
+  //MAIN FOODLIST STATE
   let [foodData, setFoodData] = useState(foodsArray);
 
-  let [foodDataWithNew, setWithNew] = useState(foodsArray);
 
-
-  let [journalData, setJournal] = useState([])
-
-  let [action, setAction] = useState(false)
+  //ACTION STATES
+  let [displayForm, setdisplayForm] = useState(false);
+  let [displayResults, setDisplayResults] = useState(0);
 
 
 
   //ADD FOOD FUNCTIONS
+  let [foodDataWithNew, setWithNew] = useState(foodsArray);
+
   function addFood(newFood) {
-    let foodsArray = [...foodDataWithNew]
-    if(foodsArray.some((el) => el.name === newFood.name)) {
+    if(foodDataWithNew.some((el) => el.name === newFood.name)) {
       alert('This food already exists');
       return false;
     } else {
-      foodsArray = [...foodDataWithNew, newFood]
-      setWithNew(foodsArray)
-      setAction(!action)
+      let newFoodsArray = [...foodDataWithNew, newFood]
+      console.log("new foods: ", newFoodsArray)
+      setWithNew(newFoodsArray)
+      setdisplayForm(!displayForm)
     }
 
   }
 
   function cancelForm() {
-    setAction(!action)
+    setdisplayForm(!displayForm)
   }
 
-  useEffect(() => setFoodData(foodDataWithNew), [foodDataWithNew]) // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => setFoodData(foodDataWithNew), [foodDataWithNew])
 
 
 
+  
   //SEARCH FUNCTION
+  let [searchResult, setSearchResult] = useState([]);
 
   function searchFood(foodSearch) {
-    let safeCopy = [...foodData];
-    let safeCopyNew = [...foodDataWithNew];
-      
-    let newArr = safeCopyNew.filter(foodObject => foodObject.name.toLowerCase().includes(foodSearch.toLowerCase()))
-    console.log("newArr: ", newArr)
-    setFoodData(newArr) 
+    if(foodSearch === "") {
+      console.log("empty search")
+      setDisplayResults(0)
+    }
+    else {
+      let counter = displayResults + 1;
+      setDisplayResults(counter)
+
+      let newArr = foodData.filter(foodObject => foodObject.name.toLowerCase().includes(foodSearch.toLowerCase()))
+      setSearchResult(newArr) 
+    }
   }
 
 
-
-
-
+  
   //JOURNAL FUNCTIONS
+  let [journalData, setJournal] = useState([])
+
 
   function addToJournal(foodObject) {
 
@@ -85,26 +92,40 @@ function App() {
   return (
     <div className="App">
 
-      {(!action) && 
-            <button class="button" onClick={() => setAction( !action )} > Add new food </button>
+      {(!displayForm) && 
+            <button class="button" onClick={() => setdisplayForm( !displayForm )} > Add new food </button>
       }
 
-      {(action) && <AddFoodForm addFoodHandler={addFood} cancelFormHandler={cancelForm}/>}
+      {(displayForm) && <AddFoodForm addFoodHandler={addFood} cancelFormHandler={cancelForm}/>}
 
       <Search searchFoodHandler={searchFood} />
 
 
       <div class="columns">
         <div class="column is-two-thirds">
-        <ul class="food-list">
-          {foodData.map((foodEl, index) => {
-            return (
-              <li key={index}>
-                <FoodBox foodObject={foodEl} quantityHandler={addToJournal}/>
-              </li>
-            )
-          })}
-        </ul>
+          {(displayResults > 0) &&
+            <ul class="food-list-normal">
+              {searchResult.map((foodEl, index) => {
+                return (
+                <li key={index}>
+                  <FoodBox foodObject={foodEl} quantityHandler= {addToJournal}/>
+                </li>
+                )
+              })}
+            </ul>
+          }
+        
+          {(displayResults === 0) &&
+            <ul class="food-list-normal">
+              {foodData.map((foodEl, index) => {
+                return (
+                  <li key={index}>
+                    <FoodBox foodObject={foodEl} quantityHandler=   {addToJournal}/>
+                  </li>
+                )
+              })}
+            </ul>
+          }
         </div>
         <div class="column">
           <FoodJournal journalArray={journalData}/>
