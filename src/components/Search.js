@@ -13,10 +13,12 @@ export default function Search(props) {
 
     function handleSearch(event) {
         event.preventDefault();
-        const search = event.target.value
-        setFormState(search)
+    } 
 
-        console.log("searchValue: ", search)      
+    function handleChange(event) {
+        event.preventDefault();
+        const search = event.target.value
+        setFormState(search) 
     } 
 
 
@@ -27,7 +29,7 @@ export default function Search(props) {
     return (
         <form onSubmit={handleSearch}>
             <div class="field">
-                <input name="search" value={formState} onChange={handleSearch} class="input" type="text" placeholder="e.g. Tofu"/>
+                <input name="search" value={formState} onChange={handleChange} class="input" type="text" placeholder="e.g. Tofu"/>
             </div>
         </form>
     )

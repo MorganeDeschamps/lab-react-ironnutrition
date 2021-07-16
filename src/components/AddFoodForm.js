@@ -6,11 +6,11 @@ import 'bulma/css/bulma.css';
 export default function AddFoodForm(props) {
 
     const addFood = props.addFoodHandler
-    const cancelForm = props.cancelFormHandler
+    const cancelForm = props.resetFormHandler
 
     const initialState =   {
         name: "",
-        calories: null,
+        calories: 0,
         image: "",
         quantity: 0
     }
@@ -29,7 +29,6 @@ export default function AddFoodForm(props) {
       console.log(formState);
 
       addFood(formState)
-      setFormState( initialState )
     }
 
     function handleOnCancel(event){
@@ -49,7 +48,7 @@ export default function AddFoodForm(props) {
             <div class="field">
                 <label class="label">Number of calories</label>
                 <div class="control">
-                    <input name="calories" value={formState.calories} onChange={handleChange} class="input" type="number" placeholder="e.g. 10"/>
+                    <input name="calories" onChange={handleChange} class="input" type="number" placeholder="e.g. 10"/>
                 </div>
             </div>
             <div class="field">

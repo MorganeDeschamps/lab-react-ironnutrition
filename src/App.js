@@ -14,30 +14,55 @@ const foodsArray = [...foods];
 
 function App() {
 
-  const [foodData, setFoodData] = useState(foodsArray);
-  const [journalData, setJournal] = useState([])
+  let [foodData, setFoodData] = useState(foodsArray);
 
-  const [action, setAction] = useState(false)
-
+  let [foodDataWithNew, setWithNew] = useState(foodsArray);
 
 
+  let [journalData, setJournal] = useState([])
+
+  let [action, setAction] = useState(false)
+
+
+
+  //ADD FOOD FUNCTIONS
   function addFood(newFood) {
-    const updatedFoodList = [newFood, ...foodData];
-    setFoodData(updatedFoodList)
-    setAction(!action)
+    let foodsArray = [...foodDataWithNew]
+    if(foodsArray.some((el) => el.name === newFood.name)) {
+      alert('This food already exists');
+      return false;
+    } else {
+      foodsArray = [...foodDataWithNew, newFood]
+      setWithNew(foodsArray)
+      setAction(!action)
+    }
+
   }
 
   function cancelForm() {
     setAction(!action)
   }
 
+  useEffect(() => setFoodData(foodDataWithNew), [foodDataWithNew]) // eslint-disable-line react-hooks/exhaustive-deps
+
+
+
+  //SEARCH FUNCTION
+
   function searchFood(foodSearch) {
-    console.log("foodSearch", foodSearch)
-    let newArr = foodData.filter(foodObject => 
-      foodObject.name.toLowerCase().includes(foodSearch.toLowerCase())
-    )
+    let safeCopy = [...foodData];
+    let safeCopyNew = [...foodDataWithNew];
+      
+    let newArr = safeCopyNew.filter(foodObject => foodObject.name.toLowerCase().includes(foodSearch.toLowerCase()))
+    console.log("newArr: ", newArr)
     setFoodData(newArr) 
   }
+
+
+
+
+
+  //JOURNAL FUNCTIONS
 
   function addToJournal(foodObject) {
 
